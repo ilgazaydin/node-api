@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  api:
+    container_name: node-api-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+      - /app/node_modules   # avoid host's node_modules conflicting
+    environment:
+      - PORT=4000
+      - JWT_SECRET=hpK4&Vc%rT!bqzWz#7xLp@3JgNs9vY8u
+      - DATABASE_URL=postgresql://postgres.iqfwdupvpocvjjmcpayq:*Ujy4XxskFu,DVs@aws-0-eu-west-2.pooler.supabase.com:5432/postgres

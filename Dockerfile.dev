@@ -1,0 +1,18 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+RUN npm install -g nodemon
+
+COPY . .
+
+# Run prisma generate on start (optional, or move to entrypoint script)
+RUN npx prisma generate
+
+# No build step here — we run with ts-node via nodemon
+EXPOSE 4000
+
+CMD ["nodemon", "--watch", ".", "src/app.ts"]
