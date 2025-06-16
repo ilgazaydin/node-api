@@ -1,21 +1,21 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import authRoutes from "./routes/authRoutes";
-import { globalRateLimiter, authRateLimiter } from "./middleware/rateLimiter";
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import authRoutes from './routes/authRoutes';
+import { globalRateLimiter, authRateLimiter } from './middleware/rateLimiter';
 
-dotenv.config({ path: ".env.local" });
-console.log("Loaded JWT_SECRET:", process.env.JWT_SECRET);
+dotenv.config({ path: '.env.local' });
+console.log('Loaded JWT_SECRET:', process.env.JWT_SECRET);
 
 const app = express();
 
 app.use(
   cors({
     origin: [
-      "http://localhost:8000",
-      "https://nasa-media-explorer-alpha.vercel.app",
+      'http://localhost:8000',
+      'https://nasa-media-explorer-alpha.vercel.app'
     ],
-    credentials: true,
+    credentials: true
   })
 );
 
@@ -25,14 +25,14 @@ app.use(express.json());
 app.use(globalRateLimiter);
 
 // Apply stricter limiter to auth routes
-app.use("/api/auth/login", authRateLimiter);
-app.use("/api/auth/register", authRateLimiter);
+app.use('/api/auth/login', authRateLimiter);
+app.use('/api/auth/register', authRateLimiter);
 
 // Routes
-app.use("/api/auth", authRoutes);
+app.use('/api/auth', authRoutes);
 
-app.get("/", (_, res) => {
-  res.send("API is running");
+app.get('/', (_, res) => {
+  res.send('API is running');
 });
 
 const PORT = process.env.PORT || 4000;
