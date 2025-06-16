@@ -18,7 +18,11 @@ export function authenticate(req: AuthRequest, res: Response, next: NextFunction
     const payload = verifyToken(token);
     req.userId = payload.userId;
     next();
-  } catch {
-    res.status(401).json({ message: 'Invalid token' });
+  } catch (error: any) {
+    if (error.name === 'TokenExpiredError') {
+      res.status(401).json({ message: 'Token expired' });
+    } else {
+      res.status(401).json({ message: 'Invalid token' });
+    }
   }
 }
